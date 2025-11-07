@@ -1,37 +1,42 @@
 export interface InputDropDownProps {
-  value: Record<string, string>;
-  selected: string[];
-  onChange: (selected: string[]) => void;
+  value: Record<WeatherVariableKeySelected, string>;
+  selected: WeatherVariableKeySelected[];
+  onChange: (selected: WeatherVariableKeySelected[]) => void;
   id?: string;
 }
 
 export interface TableWeatherProps {
   lat: number;
   long: number;
-  variables: string[];
+  variables: WeatherVariableKeySelected[];
 }
 
-export interface WeatherParamsValues {
-  time: string[];
-  weathercode?: number[];
-  temperature_2m_max?: number[];
-  temperature_2m_min?: number[];
-  apparent_temperature_max?: number[];
-  apparent_temperature_min?: number[];
-  sunrise?: string[];
-  sunset?: string[];
-  precipitation_sum?: number[];
-  rain_sum?: number[];
-  showers_sum?: number[];
-  snowfall_sum?: number[];
-  precipitation_hours?: number[];
-  windspeed_10m_max?: number[];
-  windgusts_10m_max?: number[];
-  winddirection_10m_dominant?: number[];
-  shortwave_radiation_sum?: number[];
-  et0_fao_evapotranspiration?: number[];
-  [key: string]: string[] | number[] | undefined;
-}
+export type WeatherVariableKey =
+  | "time"
+  | "weathercode"
+  | "temperature_2m_max"
+  | "temperature_2m_min"
+  | "apparent_temperature_max"
+  | "apparent_temperature_min"
+  | "sunrise"
+  | "sunset"
+  | "precipitation_sum"
+  | "rain_sum"
+  | "showers_sum"
+  | "snowfall_sum"
+  | "precipitation_hours"
+  | "windspeed_10m_max"
+  | "windgusts_10m_max"
+  | "winddirection_10m_dominant"
+  | "shortwave_radiation_sum"
+  | "et0_fao_evapotranspiration";
+
+export type WeatherVariableKeySelected = Exclude<WeatherVariableKey, "time">;
+
+export type WeatherParamsValues = Record<
+  WeatherVariableKey,
+  string[] | number[] | undefined
+>;
 
 export interface WeatherParamsUnits {
   time: string;

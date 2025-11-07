@@ -1,13 +1,15 @@
 import { useState } from "react";
-import { InputDropDownProps } from "../../types";
+import { InputDropDownProps, WeatherVariableKeySelected } from "../../types";
+import styles from "./index.module.scss";
 
 export function InputDropDown(props: InputDropDownProps) {
   const { value, selected, onChange, id } = props;
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [search, setSearch] = useState<string>("");
-  const [tempSelected, setTempSelected] = useState<string[]>(selected);
+  const [tempSelected, setTempSelected] =
+    useState<WeatherVariableKeySelected[]>(selected);
 
-  const toggleSelect = (key: string) => {
+  const toggleSelect = (key: WeatherVariableKeySelected) => {
     setTempSelected((prev) =>
       prev.includes(key) ? prev.filter((el) => el !== key) : [...prev, key]
     );
@@ -25,20 +27,9 @@ export function InputDropDown(props: InputDropDownProps) {
   };
 
   return (
-    <div
-      style={{
-        position: "relative",
-        width: "100%",
-      }}
-    >
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "4px",
-        }}
-      >
-        <label htmlFor={id} style={{ width: "fit-content" }}>
+    <div className={styles["container"]}>
+      <div className={styles["main"]}>
+        <label htmlFor={id} className={styles["label"]}>
           Фильтр
         </label>
         <input
@@ -49,36 +40,23 @@ export function InputDropDown(props: InputDropDownProps) {
           onChange={(e) => setSearch(e.target.value)}
           value={search}
           placeholder="Фильтр"
-          style={{ width: "320px" }}
+          className={styles["input"]}
         />
       </div>
       {isOpen && (
-        <div
-          style={{
-            position: "absolute",
-            top: "100%",
-            left: 0,
-            width: "320px",
-            border: "1px solid #ccc",
-            borderRadius: "6px",
-            background: "white",
-            zIndex: 10,
-            marginTop: "4px",
-          }}
-        >
+        <div className={styles["dropdown"]}>
           {filtered.map(([key, label]) => {
-            const isSelected = tempSelected.includes(key);
+            const variableKey = key as WeatherVariableKeySelected;
+            const isSelected = tempSelected.includes(variableKey);
             return (
               <div
                 key={key}
                 onMouseDown={(e) => e.preventDefault()}
-                onClick={() => toggleSelect(key)}
+                onClick={() => toggleSelect(variableKey)}
                 style={{
-                  padding: "8px",
-                  cursor: "pointer",
                   background: isSelected ? "#e6f7ff" : "white",
-                  borderBottom: "1px solid #eee",
                 }}
+                className={styles["dropdown-item"]}
               >
                 {label}
               </div>
@@ -86,9 +64,7 @@ export function InputDropDown(props: InputDropDownProps) {
           })}
 
           {filtered.length === 0 && (
-            <div style={{ padding: "8px", color: "#777" }}>
-              Ничего не найдено
-            </div>
+            <div className={styles["dropdown-empty"]}>Ничего не найдено</div>
           )}
         </div>
       )}

@@ -1,13 +1,15 @@
 import { useState } from "react";
 import { InputDropDown } from "../InputDropDown";
 import TableWeather from "../TableWeather";
+import styles from "./index.module.scss";
+import { WeatherVariableKeySelected } from "../../types";
 
 const paramsMeteo = {
   lat: 55.751244,
   long: 37.618423,
 };
 
-export const availableVariables: Record<string, string> = {
+export const availableVariables: Record<WeatherVariableKeySelected, string> = {
   weathercode: "Код погоды",
   temperature_2m_max: "Макс. температура (2м)",
   temperature_2m_min: "Мин. температура (2м)",
@@ -28,20 +30,22 @@ export const availableVariables: Record<string, string> = {
 };
 
 function Weather() {
-  const [variables, setVariables] = useState<string[]>([
+  const [variables, setVariables] = useState<WeatherVariableKeySelected[]>([
     "rain_sum",
     "snowfall_sum",
   ]);
 
   return (
-    <div>
-      <InputDropDown
-        value={availableVariables}
-        selected={variables}
-        onChange={setVariables}
-        id="filterInput"
-      />
-      <div style={{ overflow: "auto" }}>
+    <div className={styles["container"]}>
+      <div className={styles["input"]}>
+        <InputDropDown
+          value={availableVariables}
+          selected={variables}
+          onChange={setVariables}
+          id="filterInput"
+        />
+      </div>
+      <div className={styles["table"]}>
         <TableWeather
           lat={paramsMeteo.lat}
           long={paramsMeteo.long}

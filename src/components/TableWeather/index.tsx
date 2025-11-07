@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { availableVariables } from "../pages";
 import { TableWeatherProps, WeatherResponse } from "../../types";
+import styles from "./index.module.scss";
 
 const TableWeather: React.FC<TableWeatherProps> = (
   props: TableWeatherProps
@@ -41,43 +42,16 @@ const TableWeather: React.FC<TableWeatherProps> = (
   };
 
   if (loading) return <p>Загрузка...</p>;
-  if (error) return <p style={{ color: "red" }}>{error}</p>;
+  if (error) return <p className={styles["error"]}>{error}</p>;
   if (!weather?.daily) return <p>Нет данных</p>;
 
   return (
-    <table
-      style={{
-        width: "100%",
-        borderCollapse: "collapse",
-        border: "1px solid #ccc",
-      }}
-    >
+    <table className={styles["table"]}>
       <thead>
         <tr>
-          <th
-            style={{
-              padding: "8px",
-              border: "1px solid #ccc",
-              whiteSpace: "nowrap",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              maxWidth: "150px",
-            }}
-          >
-            Дата
-          </th>
+          <th className={styles["table-cell"]}>Дата</th>
           {variables?.map((variable, index) => (
-            <th
-              style={{
-                padding: "8px",
-                border: "1px solid #ccc",
-                whiteSpace: "nowrap",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                maxWidth: "150px",
-              }}
-              key={variable}
-            >
+            <th className={styles["table-cell"]} key={variable}>
               {availableVariables[variable] ?? variable}
             </th>
           ))}
@@ -85,41 +59,15 @@ const TableWeather: React.FC<TableWeatherProps> = (
       </thead>
       <tbody>
         {weather?.daily?.time?.map((time, index) => (
-          <tr
-            style={{
-              padding: "8px",
-              border: "1px solid #ccc",
-              whiteSpace: "nowrap",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              maxWidth: "150px",
-            }}
-            key={time}
-          >
-            <td
-              style={{
-                padding: "8px",
-                border: "1px solid #ccc",
-                whiteSpace: "nowrap",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                maxWidth: "150px",
-              }}
-            >
+          <tr key={time}>
+            <td className={styles["table-cell"]}>
               {formatValue(time, weather?.daily_units.time)}
             </td>
 
             {variables?.map((variableVal) => (
               <td
                 key={`${time}-${variableVal}`}
-                style={{
-                  padding: "8px",
-                  border: "1px solid #ccc",
-                  whiteSpace: "nowrap",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  maxWidth: "150px",
-                }}
+                className={styles["table-cell"]}
               >
                 {formatValue(
                   weather?.daily[variableVal]?.[index],
