@@ -17,8 +17,8 @@ export function InputDropDown(props: InputDropDownProps) {
 
   const filtered = Object.entries(value).filter(
     ([key, label]) =>
-      label.toLowerCase().includes(search.toLowerCase()) ||
-      key.toLowerCase().includes(search.toLowerCase())
+      key.toLowerCase().includes(search.toLowerCase()) ||
+      label.toLowerCase().includes(search.toLowerCase())
   );
 
   const applySelection = () => {
@@ -39,7 +39,7 @@ export function InputDropDown(props: InputDropDownProps) {
           onBlur={() => applySelection()}
           onChange={(e) => setSearch(e.target.value)}
           value={search}
-          placeholder="Фильтр"
+          placeholder="Поиск"
           className={styles["input"]}
         />
       </div>

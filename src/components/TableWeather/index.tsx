@@ -7,7 +7,7 @@ const TableWeather: React.FC<TableWeatherProps> = (
   props: TableWeatherProps
 ) => {
   const { lat, long, variables } = props;
-  const [weather, setWeather] = useState<WeatherResponse | null>();
+  const [weather, setWeather] = useState<WeatherResponse | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -17,7 +17,7 @@ const TableWeather: React.FC<TableWeatherProps> = (
     fetch(
       `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&daily=${variables.join(
         ","
-      )}&timezone=Europe/Moscow&past_days=0`
+      )}&timezone=Europe/Moscow&past_days=7`
     )
       .then((resp) => resp.json())
       .then((data) => setWeather(data))
@@ -34,14 +34,14 @@ const TableWeather: React.FC<TableWeatherProps> = (
       const dateStr = String(value);
       if (dateStr.includes("T")) {
         const [date, time] = dateStr.split("T");
-        return `${new Date(dateStr).toLocaleDateString("ru-RU")} ${time}`;
+        return `${new Date(dateStr).toLocaleDateString("ru-RU")}, ${time}`;
       }
       return new Date(dateStr).toLocaleDateString("ru-RU");
     }
     return String(value);
   };
 
-  if (loading) return <p>Загрузка...</p>;
+  if (loading) return <p className={styles["loading"]}>Загрузка...</p>;
   if (error) return <p className={styles["error"]}>{error}</p>;
   if (!weather?.daily) return <p>Нет данных</p>;
 
