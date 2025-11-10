@@ -44,14 +44,16 @@ export function InputDropDown(props: InputDropDownProps) {
         />
       </div>
       {isOpen && (
-        <div className={styles["dropdown"]}>
+        <div
+          className={styles["dropdown"]}
+          onMouseDown={(e) => e.preventDefault()}
+        >
           {filtered.map(([key, label]) => {
             const variableKey = key as WeatherVariableKeySelected;
             const isSelected = tempSelected.includes(variableKey);
             return (
               <div
                 key={key}
-                onMouseDown={(e) => e.preventDefault()}
                 onClick={() => toggleSelect(variableKey)}
                 style={{
                   background: isSelected ? "#e6f7ff" : "white",
