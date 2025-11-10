@@ -17,7 +17,7 @@ const TableWeather: React.FC<TableWeatherProps> = (
     fetch(
       `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&daily=${variables.join(
         ","
-      )}&timezone=Europe/Moscow&past_days=7`
+      )}&timezone=Europe/Moscow&past_days=0`
     )
       .then((resp) => resp.json())
       .then((data) => setWeather(data))
